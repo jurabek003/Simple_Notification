@@ -15,23 +15,28 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        binding.button.setOnClickListener {
 
-        val notificationBuilder=NotificationCompat.Builder(this,"channelId")
-            .setContentText("My first Notification")
-            .setContentTitle("My Notification")
-            .setSmallIcon(android.R.drawable.ic_notification_overlay)
-        val notificationBuild = notificationBuilder.build()
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Channel Name"
-            val descriptionText = "Channel Description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("channelId", name, importance).apply {
-                description = descriptionText
+            val notificationBuilder=NotificationCompat.Builder(this,"channelId")
+                .setContentText("My first Notification")
+                .setContentTitle("My Notification")
+                .setSmallIcon(android.R.drawable.ic_notification_overlay)
+            val notificationBuild = notificationBuilder.build()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = "Channel Name"
+                val descriptionText = "Channel Description"
+                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val channel = NotificationChannel("channelId", name, importance).apply {
+                    description = descriptionText
+                }
+                notificationManager.createNotificationChannel(channel)
             }
-            notificationManager.createNotificationChannel(channel)
+            notificationManager.notify(1,notificationBuild)
         }
-        notificationManager.notify(1,notificationBuild)
+
+
     }
 }
